@@ -15,15 +15,15 @@ class ChatBot:
 
         for intent in self.intents['intents']:
 
-            if message in intent['patterns'] and intent['tag'] == 'goodbye':
-
-                return "nan"
-
             if message in intent['patterns']:
 
-                responses = intent['responses']
+                if intent['tag'] == 'goodbye':
 
-                return random.choice(responses)
+                    return random.choice(intent['responses']), True
+                
+                else:
+
+                    return random.choice(intent['responses']), False
             
         return "I'm sorry, Can you please provide more information?" 
     
@@ -38,15 +38,13 @@ class ChatBot:
 
             user_input = input("User: ").strip()
 
-            response = self.userInput(user_input)
+            response, end_program = self.userInput(user_input)
 
-            if response == "nan":
+            print("ChatBot:", response)
 
-                print("ChatBot: ", "Good bye!")
-
+            if end_program:
+                
                 break
-
-            print("ChatBot: ", response)
 
 # -------------------------------------------------------------------------- #
 
